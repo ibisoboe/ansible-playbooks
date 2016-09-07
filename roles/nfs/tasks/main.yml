@@ -1,0 +1,19 @@
+---
+# file: roles/nfs/tasks/main.yml
+
+# Section of installation.
+- include: distributions/redhat/main.yml
+  when: ansible_os_family == 'RedHat'
+
+# Section of configuration.
+- name: Create directory of nfs if not exists.
+  file: path=/var/nfs state=directory owner=root group=root mode=0755
+  become: yes
+
+- name: Check rpcbind has started and enabled to start at boot.
+  service: name=rpcbind state=started enabled=yes
+  become: yes
+
+- name: Check nfs has started and enabled to start at boot.
+  service: name=nfs state=started enabled=yes
+  become: yes

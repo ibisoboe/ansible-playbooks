@@ -1,0 +1,6 @@
+---
+# file: nfsservers.yml
+- hosts: nfsservers
+  roles:
+    - common
+    - nfs

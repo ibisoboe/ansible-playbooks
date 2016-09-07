@@ -1,0 +1,10 @@
+---
+# file: roles/zeromq/tasks/distributions/redhat/main.yml
+
+- name: Add zeromq repository.
+  template: src=repos/yum/zeromq.repo.j2 dest=/etc/yum.repos.d/zeromq.repo owner=root group=root mode=0644
+  become: yes
+
+- name: Check if zeromq has been installed.
+  yum: name=zeromq state=installed enablerepo=home_fengshuo_zeromq
+  become: yes

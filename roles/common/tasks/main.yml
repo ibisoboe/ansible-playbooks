@@ -1,0 +1,5 @@
+---
+# file: roles/common/tasks/main.yml
+
+- include: distributions/redhat/main.yml
+  when: ansible_os_family == 'RedHat'

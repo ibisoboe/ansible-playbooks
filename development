@@ -1,0 +1,14 @@
+[nfsservers]
+server02
+
+[webservers]
+server01
+
+[appservers]
+server01
+
+[dbservers]
+server01
+
+[mqservers]
+server01

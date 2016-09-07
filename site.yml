@@ -1,0 +1,7 @@
+---
+# file: site.yml
+- include: nfsservers.yml
+- include: webservers.yml
+- include: appservers.yml
+- include: dbservers.yml
+- include: mqservers.yml

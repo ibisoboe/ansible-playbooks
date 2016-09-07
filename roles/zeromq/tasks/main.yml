@@ -1,0 +1,6 @@
+---
+# file: roles/zeromq/tasks/main.yml
+
+# Section of installation.
+- include: distributions/redhat/main.yml
+  when: ansible_os_family == 'RedHat'

@@ -1,0 +1,14 @@
+---
+# file: roles/mysql/tasks/distributions/redhat/main.yml
+
+- name: Add mysql repository.
+  template: src=repos/yum/mysql-community.repo.j2 dest=/etc/yum.repos.d/mysql-community.repo owner=root group=root mode=0644
+  become: yes
+
+- name: Define mysql user.
+  set_fact: mysql_user="mysql"
+  become: yes
+
+- name: Check if mysql-community-server has been installed.
+  yum: name=mysql-community-server state=installed enablerepo=mysql56-community
+  become: yes

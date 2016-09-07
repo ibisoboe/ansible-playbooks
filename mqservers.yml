@@ -1,0 +1,6 @@
+---
+# file: mqservers.yml
+- hosts: mqservers
+  roles:
+    - common
+    - zeromq

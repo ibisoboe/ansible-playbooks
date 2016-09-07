@@ -1,0 +1,29 @@
+---
+# file: roles/php-virtualenv/tasks/main.yml
+
+# Section of installation.
+- include: distributions/redhat/main.yml
+  when: ansible_os_family == 'RedHat'
+
+# Section of configuration.
+- name: Configure bashrc for phpbrew.
+  shell: /usr/local/bin/phpbrew init &&
+         echo "" >> $HOME/.bashrc &&
+         echo "# Source PHPbrew" >> $HOME/.bashrc &&
+         echo "export PHPBREW_SET_PROMPT=1" >> $HOME/.bashrc &&
+         echo "export PHPBREW_BIN=$HOME/.phpbrew/bin" >> $HOME/.bashrc &&
+         echo "export PHPBREW_HOME=$HOME/.phpbrew" >> $HOME/.bashrc &&
+         echo "export PHPBREW_ROOT=$HOME/.phpbrew" >> $HOME/.bashrc &&
+         echo "[[ -e $HOME/.phpbrew/bashrc ]] && source $HOME/.phpbrew/bashrc" >> $HOME/.bashrc
+  become: yes
+
+- name: Build virtual environment for php.
+  shell: source $HOME/.bashrc &&
+         /usr/local/bin/phpbrew install 5.6.24 +default +everything -- --with-icu-dir=/usr --with-gd --with-jpeg-dir=/usr/lib64 --with-png-dir=/usr/png --enable-gd-jis-conv &&
+         /usr/local/bin/phpbrew switch 5.6.24 &&
+         /usr/local/bin/virtphp create --php-bin-dir=$HOME/.phpbrew/php/php-5.6.24/bin php56env &&
+         echo "" >> $HOME/.bashrc &&
+         echo "# Source virtPHP" >> $HOME/.bashrc &&
+         echo "source $HOME/.virtphp/envs/php56env/bin/activate" >> $HOME/.bashrc &&
+         echo "" >> $HOME/.bashrc
+  become: yes

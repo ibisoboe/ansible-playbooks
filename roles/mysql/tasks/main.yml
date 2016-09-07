@@ -1,0 +1,11 @@
+---
+# file: roles/mysql/tasks/main.yml
+
+# Section of installation.
+- include: distributions/redhat/main.yml
+  when: ansible_os_family == 'RedHat'
+
+# Section of configuration.
+- name: Check mysql-community-server has started and enabled to start at boot.
+  service: name=mysqld state=started enabled=yes
+  become: yes
