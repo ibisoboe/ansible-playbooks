@@ -15,7 +15,8 @@
          echo "export PHPBREW_HOME=$HOME/.phpbrew" >> $HOME/.bashrc &&
          echo "export PHPBREW_ROOT=$HOME/.phpbrew" >> $HOME/.bashrc &&
          echo "[[ -e $HOME/.phpbrew/bashrc ]] && source $HOME/.phpbrew/bashrc" >> $HOME/.bashrc
-  become: yes
+  become_user: "{{ phpbrew.become_user }}"
+  become: "{{ phpbrew.become }}"
 
 - name: Build virtual environment for php.
   shell: source $HOME/.bashrc &&
@@ -26,4 +27,5 @@
          echo "# Source virtPHP" >> $HOME/.bashrc &&
          echo "source $HOME/.virtphp/envs/php56env/bin/activate" >> $HOME/.bashrc &&
          echo "" >> $HOME/.bashrc
-  become: yes
+  become_user: "{{ virtphp.become_user }}"
+  become: "{{ virtphp.become }}"

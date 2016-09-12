@@ -1,29 +1,27 @@
-user  nginx;
-worker_processes  1;
+user  {{ nginx.conf.user }};
+worker_processes  {{ nginx.conf.worker_processes }};
 
-error_log  /var/log/nginx/error.log warn;
-pid        /var/run/nginx.pid;
+error_log  {{ nginx.conf.error_log.path }} {{ nginx.conf.error_log.level }};
+pid        {{ nginx.conf.pid }};
 
 events {
-    worker_connections  1024;
+    worker_connections  {{ nginx.conf.events.worker_connections }};
 }
 
 http {
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
+    include       {{ nginx.conf.http.include }};
+    default_type  {{ nginx.conf.http.default_type }};
 
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+    log_format    {{ nginx.conf.log_format }};
 
-    access_log  /var/log/nginx/access.log  main;
+    access_log  {{ nginx.conf.access_log.path }} {{ nginx.conf.access_log.level }};
 
-    sendfile        on;
-    #tcp_nopush     on;
+    sendfile       {{ nginx.conf.sendfile }};
+    tcp_nopush     {{ nginx.conf.tcp_nopush }};
 
-    keepalive_timeout  65;
+    keepalive_timeout  {{ nginx.conf.keepalive_timeout }};
 
-    #gzip  on;
+    gzip  {{ nginx.conf.gzip }};
 
-    include /etc/nginx/conf.d/*.conf;
+    include {{ nginx.conf.include }};
 }

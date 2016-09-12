@@ -1,0 +1,32 @@
+{% for vhost in nginx.vhosts %}
+server {
+    listen       {{ vhost.listen | default('80 default_server') }};
+{% if vhost.server_name is defined %}
+    server_name  {{ vhost.server_name }};
+{% endif %}
+
+    charset {{ vhost.charset | default('koi8-r') }};
+
+{% if vhost.access_log is defined %}
+    access_log  {{ vhost.access_log.path }} {{ vhost.access_log.level }};
+{% endif %}
+
+{% if vhost.errors is defined %}
+{% for error in vhost.errors %}
+    error_page {{ error.status_code }}  {{ error.path }};
+{% endfor %}
+{% endif %}
+
+{% if vhost.locations is defined %}
+{% for location in vhost.locations %}
+
+    location {{ location.path }} {
+{% for item in location.config %}
+        {{ item.name }}  {{ item.value }};
+{% endfor %}
+    }
+
+{% endfor %}
+{% endif %}
+}
+{% endfor %}

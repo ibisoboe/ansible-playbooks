@@ -1,0 +1,18 @@
+[mysqld]
+datadir={{ mysql.mysqld.datadir }}
+socket={{ mysql.mysqld.socket }}
+user={{ mysql.mysqld.user }}
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links={{ mysql.mysqld.symbolic_links }}
+sql_mode={{ mysql.mysqld.sql_mode }}
+explicit_defaults_for_timestamp={{ mysql.mysqld.explicit_defaults_for_timestamp }}
+
+general_log={{ mysql.mysqld.general_log }}
+general_log_file={{ mysql.mysqld.general_log }}
+
+# Configure server encoding
+character-set-server={{ mysql.mysqld.character_set_server }}
+
+[mysqld_safe]
+log-error={{ mysql.mysqld_safe.log_error }}
+pid-file={{ mysql.mysqld_safe.pid_file }}
