@@ -18,7 +18,14 @@ server {
 {% endif %}
 
 {% if vhost.access_log is defined %}
-    access_log  {{ vhost.access_log.path }} {{ vhost.access_log.level }};
+    access_log  {{ vhost.access_log.path }} {{ vhost.access_log.format }};
+{% endif %}
+{% if vhost.error_log is defined %}
+    error_log  {{ vhost.error_log.path }};
+{% endif %}
+
+{% if vhost.proxy_no_cache is defined %}
+    proxy_no_cache {{ vhost.proxy_no_cache }};
 {% endif %}
 
 {% if vhost.errors is defined %}
