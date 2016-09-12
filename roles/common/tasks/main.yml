@@ -1,5 +1,17 @@
 ---
 # file: roles/common/tasks/main.yml
 
+# Section of installation.
 - include: distributions/redhat/main.yml
   when: ansible_os_family == 'RedHat'
+
+# Section of configuration.
+- name: Check if iptables has been started and enabled to start at boot.
+  service: name=iptables state=running enabled=yes
+  become: yes
+
+- name: Configure iptables
+  template: src=iptables/iptables.j2 dest=/etc/sysconfig/iptables owner=root group=root mode=0600
+  notify:
+    - Restart iptables
+  become: yes

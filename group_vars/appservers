@@ -1,0 +1,9 @@
+---
+# file: group_vars/appservers
+
+# iptables Configurations
+iptables:
+  accept_tcp_rules:
+    - { port: 22 }
+    - { port: 80 }
+    - { port: 443 }

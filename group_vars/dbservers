@@ -1,0 +1,9 @@
+---
+# file: group_vars/dbservers
+
+# iptables Configurations
+iptables:
+  accept_tcp_rules:
+    - { port: 22 }
+    - { port: 3306 }
+    - { port: 443 }
