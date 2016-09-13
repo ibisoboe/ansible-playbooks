@@ -3,6 +3,11 @@
 
 # This file shows sample definitions about variables of server configurations.
 
+# Host Configurations
+host:
+  become_user: root
+  become: yes
+
 # NFS Configurations
 mount_settings:
   - /var/nfs 0.0.0.0/24(rw,no_root_squash)
@@ -33,6 +38,12 @@ nginx:
     keepalive_timeout: 65
     gzip: "off"
     include: /etc/nginx/conf.d/*.conf
+  upstreams:
+    - name: webservers
+      servers:
+        - backend1.example.com
+        - backend2.example.com       weight=5
+        - backend3.example.com:8080
   vhosts:
     - listen: 80
       server_name: localhost
@@ -68,14 +79,23 @@ nginx:
 virtphp:
   become_user: root
   become: yes
+  env:
+    name: php56env
 
 # PHPBrew Configurations
 phpbrew:
   become_user: root
   become: yes
+  php:
+    version: 5.6.24
 
 # MySQL Configurations
 mysql:
+  repos:
+    yum:
+      key: mysql56-community
+      name: MySQL 5.6 Community Server
+      baseurl: http://repo.mysql.com/yum/mysql-5.6-community/el/6/$basearch/
   mysqld:
     datadir: /var/lib/mysql
     socket: /var/lib/mysql/mysql.sock
@@ -87,7 +107,7 @@ mysql:
     general_log_file: /var/lib/mysql/query.log
     character_set_server: utf8
   mysqld_safe:
-    log-error: /var/log/mysqld.log
-    pid-file: /var/run/mysqld/mysqld.pid
+    log_error: /var/log/mysqld.log
+    log_error: /var/run/mysqld/mysqld.pid
 
 # ZeroMQ Configurations

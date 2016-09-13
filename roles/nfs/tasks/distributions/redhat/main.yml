@@ -1,17 +1,20 @@
 ---
 # file: roles/nfs/tasks/distributions/redhat/main.yml
 
-- name: Install necessary packages from yum.
-  yum: name={{item}} state=present
+- name: Install necessary packages from yum
+  yum: name={{ item }} state=present
   with_items:
     - rpcbind
     - nfs-utils
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Configure share directory.
+- name: Configure share directory
   template: src=config/exports.j2 dest=/etc/exports owner=root group=root mode=0644
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Reflect configuration of share directory.
+- name: Apply configuration of share directory
   shell: exportfs -a
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

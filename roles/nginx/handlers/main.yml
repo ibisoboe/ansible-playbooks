@@ -1,0 +1,7 @@
+---
+# file: roles/nginx/handlers/main.yml
+
+- name: Restart nginx
+  service: name=nginx state=restarted
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

@@ -1,8 +1,7 @@
 ---
-# file: group_vars/dbservers
+# file: group_vars/nfsservers
 
 # iptables Configurations
 iptables:
   accept_tcp_rules:
     - { port: 22 }
-    - { port: 3306 }

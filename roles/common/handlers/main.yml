@@ -3,4 +3,5 @@
 
 - name: Restart iptables
   service: name=iptables state=restarted
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

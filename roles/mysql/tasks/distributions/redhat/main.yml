@@ -1,14 +1,22 @@
 ---
 # file: roles/mysql/tasks/distributions/redhat/main.yml
 
-- name: Add mysql repository.
+- name: Add mysql repository
   template: src=repos/yum/mysql-community.repo.j2 dest=/etc/yum.repos.d/mysql-community.repo owner=root group=root mode=0644
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Define mysql user.
+- name: Define mysql user
   set_fact: mysql_user="mysql"
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Check if mysql-community-server has been installed.
-  yum: name=mysql-community-server state=installed enablerepo=mysql56-community
-  become: yes
+- name: Check if mysql-community-server and its libraries have been installed
+  yum: name={{ item }} state=installed enablerepo=mysql56-community
+  with_items:
+    - mysql-community-server
+    - mysql-community-common
+    - mysql-community-libs
+    - mysql-community-devel
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

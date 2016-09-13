@@ -8,7 +8,10 @@
 # Section of configuration.
 - name: Set up mysql config.
   template: src=mysql/my.cnf.j2 dest=/etc/my.cnf owner=root group=root mode=0644
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Check mysql-community-server has started and enabled to start at boot.
+- name: Check if mysql-community-server has started and enabled to start at boot.
   service: name=mysqld state=started enabled=yes
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

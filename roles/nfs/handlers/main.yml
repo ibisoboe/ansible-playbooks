@@ -1,0 +1,7 @@
+---
+# file: roles/nfs/handlers/main.yml
+
+- name: Restart nfs
+  service: name=nfs state=restarted
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

@@ -1,14 +1,17 @@
 ---
 # file: roles/nginx/tasks/distributions/redhat/main.yml
 
-- name: Add nginx repository.
+- name: Add nginx repository
   template: src=repos/yum/nginx.repo.j2 dest=/etc/yum.repos.d/nginx.repo owner=root group=root mode=0644
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Define nginx user.
+- name: Define nginx user
   set_fact: nginx_user="nginx"
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Check if nginx has been installed.
+- name: Check if nginx has been installed
   yum: name=nginx state=installed enablerepo=nginx
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

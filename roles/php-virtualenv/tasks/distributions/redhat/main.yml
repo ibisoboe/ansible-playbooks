@@ -1,7 +1,7 @@
 ---
 # file: roles/php-virtualenv/tasks/distributions/redhat/main.yml
 
-- name: Install necessary packages from yum.
+- name: Install necessary packages from yum
   yum: name={{item}} state=present
   with_items:
   - readline-devel
@@ -29,24 +29,28 @@
   - libsmbclient
   - libsmbclient-devel
   - php
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Remove symbolic link for libssl.
+- name: Remove symbolic link for libssl
   file: name=/usr/lib/libssl.so state=absent
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Create symbolic link for libssl.
+- name: Create symbolic link for libssl
   file: src=/usr/lib64/libssl.so dest=/usr/lib/libssl.so owner=root group=root state=link
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Install virtphp.
+- name: Install virtphp
   shell: cd /tmp &&
          curl -L -O https://github.com/virtphp/virtphp/releases/download/v0.5.2-alpha/virtphp.phar &&
          chmod a+x virtphp.phar &&
          mv virtphp.phar /usr/local/bin/virtphp
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Install phpbrew.
+- name: Install phpbrew
   shell: cd /tmp &&
          wget https://github.com/phpbrew/phpbrew/archive/1.20.6.tar.gz &&
          tar xvzf 1.20.6.tar.gz &&
@@ -56,4 +60,5 @@
          cd /tmp &&
          rm -rf phpbrew-1.20.6 &&
          rm -f 1.20.6.tar.gz
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

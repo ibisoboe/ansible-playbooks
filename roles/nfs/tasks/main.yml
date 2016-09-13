@@ -6,14 +6,24 @@
   when: ansible_os_family == 'RedHat'
 
 # Section of configuration.
-- name: Create directory of nfs if not exists.
+- name: Create directory of nfs if not exists
   file: path=/var/nfs state=directory owner=root group=root mode=0755
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Check rpcbind has started and enabled to start at boot.
+- name: Check if rpcbind has started and enabled to start at boot
   service: name=rpcbind state=started enabled=yes
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Check nfs has started and enabled to start at boot.
+- name: Check if nfs has started and enabled to start at boot
   service: name=nfs state=started enabled=yes
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
+
+- name: Configure nfs
+  template: src=config/nfs.j2 dest=/etc/sysconfig/nfs owner=root group=root mode=0644
+  notify:
+    - Restart nfs
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"

@@ -1,5 +1,5 @@
-[mysql56-community]
-name=MySQL 5.6 Community Server
-baseurl=http://repo.mysql.com/yum/mysql-5.6-community/el/6/$basearch/
+[{{ mysql.repos.yum.key }}]
+name={{ mysql.repos.yum.name }}
+baseurl={{ mysql.repos.yum.baseurl }}
 gpgcheck=0
 enabled=1

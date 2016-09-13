@@ -1,15 +1,19 @@
 ---
 # file: roles/common/tasks/distributions/redhat/main.yml
-- name: Install epel repository from yum.
+- name: Install epel repository from yum
   yum: name=epel-release state=present
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
 
-- name: Install necessary packages from yum.
-  yum: name={{item}} state=present
+- name: Install necessary packages from yum
+  yum: name={{ item }} state=present
   with_items:
+    - wget
     - vim
     - libselinux-python
     - gcc
     - gcc-c++
+    - perl
     - git
-  become: yes
+  become_user: "{{ host.become_user }}"
+  become: "{{ host.become }}"
